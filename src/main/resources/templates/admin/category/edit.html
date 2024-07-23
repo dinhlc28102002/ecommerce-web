@@ -37,7 +37,8 @@
                     <h3 class="box-title">Quick Example</h3>
                 </div>
 
-                <form method="post" th:action="@{/admin/add-category}" th:object="${category}">
+                <form method="post" th:action="@{/admin/edit-category}" th:object="${category}">
+                    <input type="hidden" class="form-control" th:field="*{id}">
                     <div class="box-body">
                         <div class="form-group">
                             <label>Category Name</label>
@@ -47,12 +48,14 @@
                             <label>Status</label>
                             <div>
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" checked value="1" th:field="*{categoryStatus}"/>
+                                    <input type="radio" class="form-check-input" checked value="1"
+                                           th:field="*{categoryStatus}"/>
                                     <label class="form-check-label" for="categoryStatus">Active</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" value="0" th:field="*{categoryStatus}"/>
+                                    <input type="radio" class="form-check-input" value="0"
+                                           th:field="*{categoryStatus}"/>
                                     <label class="form-check-label" for="categoryStatus">Hidden</label>
                                 </div>
 
@@ -62,7 +65,7 @@
                     </div>
 
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Edit</button>
                     </div>
                 </form>
             </div>

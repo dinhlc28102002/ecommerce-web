@@ -24,12 +24,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests((request) -> request.
-                requestMatchers("/*").permitAll().
-                requestMatchers("/admin/**").hasAuthority("ADMIN").
+                requestMatchers("/*", "/admin/**").permitAll().
+//                requestMatchers("/admin/**").hasAuthority("ADMIN").
                 anyRequest().authenticated()).formLogin(login -> login.loginPage("/login").loginProcessingUrl("/login")
                 .usernameParameter("username").passwordParameter("password").
-                defaultSuccessUrl("/admin", true)
-        );
+                defaultSuccessUrl("/admin", true))
+                .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login"));
 
         return http.build();
     }
