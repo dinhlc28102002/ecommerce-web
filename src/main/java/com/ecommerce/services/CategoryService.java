@@ -10,4 +10,5 @@ public interface CategoryService {
     Category findById(Integer id);
     Boolean update(Category category);
     Boolean delete(Integer id);
+    List<Category> search(String keyword);
 }

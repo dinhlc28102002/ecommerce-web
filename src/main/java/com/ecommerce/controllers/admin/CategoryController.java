@@ -3,6 +3,7 @@ package com.ecommerce.controllers.admin;
 import com.ecommerce.models.Category;
 import com.ecommerce.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,12 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping("/category")
-    public String index(Model model) {
+    public String index(Model model, @Param("keyword") String keyword) {
         List<Category> list = this.categoryService.getAll();
+        if (keyword != null) {
+            list = this.categoryService.search(keyword);
+            model.addAttribute("keyword", keyword);
+        }
         model.addAttribute("list", list);
         return "admin/category/index";
     }
