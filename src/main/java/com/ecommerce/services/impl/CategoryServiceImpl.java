@@ -4,6 +4,10 @@ import com.ecommerce.models.Category;
 import com.ecommerce.repository.CategoryRepository;
 import com.ecommerce.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,5 +63,21 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> search(String keyword) {
         return this.categoryRepository.searchCategory(keyword);
+    }
+
+    @Override
+    public Page<Category> getAll(Integer pageNo) {
+        Pageable pageable = PageRequest.of(pageNo - 1,2);
+        return this.categoryRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Category> search(String keyword, Integer pageNo) {
+        List<Category> categories = this.search(keyword);
+        Pageable pageable = PageRequest.of(pageNo - 1,2);
+        Integer start = (int) pageable.getOffset();
+        Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > (categories.size()) ? categories.size() : pageable.getOffset() + pageable.getPageSize());
+        categories = categories.subList(start, end);
+        return new PageImpl<>(categories,pageable,this.search(keyword).size());
     }
 }
